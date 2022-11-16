@@ -1,7 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const router = express.Router();
-const {User} = require('../models/users');
+const { User } = require('../models/users');
 
 router.post('/', (req, res) => {
     const user = new User({
@@ -37,7 +37,7 @@ router.get('/', (req, res) => {
 
 router.get('/:id', (req, res) => {
     try {
-        if(mongoose.Types.ObjectId.isValid(req.params.id)){
+        if (mongoose.Types.ObjectId.isValid(req.params.id)) {
             User.findById(req.params.id)
                 .then((user) => {
                     res.send(user);
@@ -47,12 +47,12 @@ router.get('/:id', (req, res) => {
                     res.send(err);
                 }
                 );
-            }
-        else{
+        }
+        else {
             res.send('Invalid ID');
         }
     }
-    catch(err){
+    catch (err) {
         res.send(err);
     }
 }
@@ -60,7 +60,7 @@ router.get('/:id', (req, res) => {
 
 router.put('/:id', (req, res) => {
     try {
-        if(mongoose.Types.ObjectId.isValid(req.params.id)){
+        if (mongoose.Types.ObjectId.isValid(req.params.id)) {
             User.findByIdAndUpdate(req.params.id, {
                 username: req.body.username,
                 email: req.body.email,
@@ -71,7 +71,7 @@ router.put('/:id', (req, res) => {
                 noHp: req.body.noHp,
                 jenisKelamin: req.body.jenisKelamin,
                 profilPic: req.body.profilPic
-            }, {new: true})
+            }, { new: true })
                 .then((user) => {
                     res.send(user);
                 }
@@ -80,12 +80,12 @@ router.put('/:id', (req, res) => {
                     res.send(err);
                 }
                 );
-            }
-        else{
+        }
+        else {
             res.send('Invalid ID');
         }
     }
-    catch(err){
+    catch (err) {
         res.send(err);
     }
 }
@@ -93,22 +93,22 @@ router.put('/:id', (req, res) => {
 
 router.delete('/:id', (req, res) => {
     try {
-        if(mongoose.Types.ObjectId.isValid(req.params.id)){
+        if (mongoose.Types.ObjectId.isValid(req.params.id)) {
             User.findByIdAndDelete(req.params.id)
                 .then((user) => {
-                    res.status(201).json({ messege: 'Data berhasil dihapus'});
+                    res.status(201).json({ messege: 'Data berhasil dihapus' });
                 }
                 )
                 .catch((err) => {
                     res.send(err);
                 }
                 );
-            }
-        else{
+        }
+        else {
             res.send('Invalid ID');
         }
     }
-    catch(err){
+    catch (err) {
         res.send(err);
     }
 }
@@ -120,7 +120,6 @@ router.post('/signup', (req, res) => {
         username: req.body.username,
         password: req.body.password,
         email: req.body.email,
-        jenisKelamin: req.body.jenisKelamin,
         profilPic: req.body.profilPic
     });
 
@@ -131,11 +130,11 @@ router.post('/signup', (req, res) => {
     // }
     user.save()
         .then(() => {
-            res.status(201).json({ messege: 'Berhasil Mendaftar'});
+            res.status(201).json({ messege: 'Berhasil Mendaftar' });
         }
         )
         .catch((err) => {
-            res.status(401).json({ messege: 'Gagal Mendaftar'});;
+            res.status(401).json({ messege: 'Gagal Mendaftar' });;
         }
         );
 }
@@ -143,23 +142,23 @@ router.post('/signup', (req, res) => {
 
 //SIGN IN
 router.post('/signin', (req, res) => {
-    User.findOne({username: req.body.username})
+    User.findOne({ username: req.body.username })
         .then((user) => {
-            if(user){
-                if(user.password === req.body.password){
-                    res.status(201).json({ messege: 'Berhasil Login'});
+            if (user) {
+                if (user.password === req.body.password) {
+                    res.status(201).json({ messege: 'Berhasil Login' });
                 }
-                else{
-                    res.status(401).json({ messege: 'Password salah'});
+                else {
+                    res.status(401).json({ messege: 'Password salah' });
                 }
             }
-            else{
-                res.status(401).json({ messege: 'Username salah'});
+            else {
+                res.status(401).json({ messege: 'Username salah' });
             }
         }
         )
         .catch((err) => {
-            res.status(400).json({ messege: 'User tidak ditemukan'})
+            res.status(400).json({ messege: 'User tidak ditemukan' })
         }
         );
 }
