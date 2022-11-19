@@ -106,3 +106,13 @@ exports.signin = (req, res) => {
             });
         });
 };
+
+exports.getDataUser = (req, res, next) => {
+    User.find()
+        .then((users) => {
+            res.status(201).send(users);
+        })
+        .catch((err) => {
+            res.status(404).send(err)
+        })
+}
