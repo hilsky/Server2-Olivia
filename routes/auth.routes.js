@@ -22,4 +22,10 @@ module.exports = function (app) {
     app.post("/api/auth/signin", controller.signin);
 
     app.get("/api/auth/getUser", controller.getDataUser)
+
+    app.get("api/auth/getUser/:id", controller.getDataUserById)
+
+    app.put("api/auth/updateUser/:id", controller.updateUser);
+
+    app.delete("api/auth/deletUser/:id", controller.deleteById);
 };

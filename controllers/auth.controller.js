@@ -2,9 +2,11 @@ const config = require('../config/auth.config');
 const db = require('../models');
 const User = db.user;
 const Role = db.role;
+const mongoose = require('mongoose')
 
 var jwt = require('jsonwebtoken');
 var bcrypt = require('bcryptjs');
+
 
 exports.signup = (req, res) => {
     const user = new User({
@@ -115,4 +117,63 @@ exports.getDataUser = (req, res, next) => {
         .catch((err) => {
             res.status(404).send(err)
         })
+}
+
+exports.getDataUserById = (req, res, next) => {
+    try {
+        if (mongoose.Types.ObjectId.isValid(req.params.id)) {
+            User.findById(req.params.id)
+                .then((User) => {
+                    res.send(User)
+                })
+                .catch((err) => {
+                    res.send(err)
+                })
+        }
+        else {
+            res.status(400).send({ message: "Invalid ID" })
+        }
+    }
+    catch {
+
+    }
+}
+
+exports.updateUser = (req, res, next) => {
+    try {
+        if (mongoose.Types.ObjectId.isValid(req.params.id)) {
+            User.findByIdAndUpdate(req.params.id, {
+                fullName: req.body.fullName,
+                email: req.body.email,
+                password: bcrypt.hashSync(req.body.password, 8),
+                updateAt: Date.now()
+            })
+                .then(() => {
+                    res.status(404).send({ message: "Berhasil diubah" })
+                })
+                .catch((err) => {
+                    res.send(err)
+                })
+        }
+    }
+    catch (err) {
+        res.send(err)
+    }
+}
+
+exports.deleteById = (req, res, next) => {
+    try {
+        if (mongoose.Types.ObjectId.isValid(req.params.id)) {
+            User.findByIdAndDelete(req.params.id)
+                .then((user) => {
+                    res.status(200).json({ message: 'Data berhasil dihapus' })
+                })
+                .catch((err) => {
+                    res.send(err)
+                })
+        }
+    }
+    catch (err) {
+        res.send(err);
+    }
 }

@@ -17,6 +17,8 @@ require('./routes/user.routes')(app);
 app.use('/wisata', require('./routes/wisataRoute'))
 app.use('/users', require('./routes/usersRoute'))
 app.use('/guide', require('./routes/guideRoute'))
+app.use('/hotel', require('./routes/hotelRoute'))
+app.use('/kuliner', require('./routes/kulinerRoute'))
 
 
 app.listen(PORT, () => {

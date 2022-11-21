@@ -1,25 +1,69 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const router = express.Router();
-const { User } = require('../models/users');
+const db = require('../models');
+const Role = db.role;
+const User = db.user
+
+var bcrypt = require('bcryptjs');
 
 router.post('/', (req, res) => {
     const user = new User({
-        username: req.body.username,
-        password: req.body.password,
+        fullName: req.body.fullName,
+        password: bcrypt.hashSync(req.body.password, 8),
         email: req.body.email,
-        jenisKelamin: req.body.jenisKelamin,
-        profilPic: req.body.profilPic
+
     });
-    user.save()
-        .then(() => {
-            res.send(user);
+    user.save((err, user) => {
+        if (err) {
+            res.status(500).send({ message: err });
+            return;
         }
-        )
-        .catch((err) => {
-            res.send(err);
+
+        if (req.body.roles) {
+            Role.find(
+                {
+                    name: { $in: req.body.roles }
+                },
+                (err, roles) => {
+                    if (err) {
+                        res.status(500).send({ message: err });
+                        return;
+                    }
+
+                    user.roles = roles.map(role => role._id);
+                    user.save(err => {
+                        if (err) {
+                            res.status(500).send({ message: err });
+                            return;
+                        }
+
+                        res.send({ message: "User was registered successfully" })
+                    });
+                }
+            );
         }
-        );
+
+        else {
+            Role.findOne({ name: "user" }, (err, role) => {
+                if (err) {
+                    res.status(500).send({ message: err });
+                    return;
+                }
+
+                user.roles = [role._id];
+                user.save(err => {
+                    if (err) {
+                        res.status(500).send({ message: err });
+                        return;
+                    }
+
+                    res.send({ message: "User was registered successfully" })
+                });
+            });
+        }
+    }
+    )
 })
 
 router.get('/', (req, res) => {
@@ -62,15 +106,9 @@ router.put('/:id', (req, res) => {
     try {
         if (mongoose.Types.ObjectId.isValid(req.params.id)) {
             User.findByIdAndUpdate(req.params.id, {
-                username: req.body.username,
+                fullName: req.body.fullName,
+                password: bcrypt.hashSync(req.body.password, 8),
                 email: req.body.email,
-                password: req.body.password,
-                alamat: req.body.alamat,
-                kota: req.body.kota,
-                prov: req.body.prov,
-                noHp: req.body.noHp,
-                jenisKelamin: req.body.jenisKelamin,
-                profilPic: req.body.profilPic
             }, { new: true })
                 .then((user) => {
                     res.send(user);
@@ -115,53 +153,53 @@ router.delete('/:id', (req, res) => {
 )
 
 //SIGN UP
-router.post('/signup', (req, res) => {
-    const user = new User({
-        username: req.body.username,
-        password: req.body.password,
-        email: req.body.email,
-        profilPic: req.body.profilPic
-    });
+// router.post('/signup', (req, res) => {
+//     const user = new User({
+//         username: req.body.username,
+//         password: req.body.password,
+//         email: req.body.email,
+//         profilPic: req.body.profilPic
+//     });
 
 
-    // const duplicate = user.findOne({username}).lean().exec()
-    // if(duplicate) {
-    //     return res.status(409).json({messege: 'Username telah digunakan'})
-    // }
-    user.save()
-        .then(() => {
-            res.status(201).json({ messege: 'Berhasil Mendaftar' });
-        }
-        )
-        .catch((err) => {
-            res.status(401).json({ messege: 'Gagal Mendaftar' });;
-        }
-        );
-}
-)
+//     // const duplicate = user.findOne({username}).lean().exec()
+//     // if(duplicate) {
+//     //     return res.status(409).json({messege: 'Username telah digunakan'})
+//     // }
+//     user.save()
+//         .then(() => {
+//             res.status(201).json({ messege: 'Berhasil Mendaftar' });
+//         }
+//         )
+//         .catch((err) => {
+//             res.status(401).json({ messege: 'Gagal Mendaftar' });;
+//         }
+//         );
+// }
+// )
 
-//SIGN IN
-router.post('/signin', (req, res) => {
-    User.findOne({ username: req.body.username })
-        .then((user) => {
-            if (user) {
-                if (user.password === req.body.password) {
-                    res.status(201).json({ messege: 'Berhasil Login' });
-                }
-                else {
-                    res.status(401).json({ messege: 'Password salah' });
-                }
-            }
-            else {
-                res.status(401).json({ messege: 'Username salah' });
-            }
-        }
-        )
-        .catch((err) => {
-            res.status(400).json({ messege: 'User tidak ditemukan' })
-        }
-        );
-}
-)
+// //SIGN IN
+// router.post('/signin', (req, res) => {
+//     User.findOne({ username: req.body.username })
+//         .then((user) => {
+//             if (user) {
+//                 if (user.password === req.body.password) {
+//                     res.status(201).json({ messege: 'Berhasil Login' });
+//                 }
+//                 else {
+//                     res.status(401).json({ messege: 'Password salah' });
+//                 }
+//             }
+//             else {
+//                 res.status(401).json({ messege: 'Username salah' });
+//             }
+//         }
+//         )
+//         .catch((err) => {
+//             res.status(400).json({ messege: 'User tidak ditemukan' })
+//         }
+//         );
+// }
+// )
 
 module.exports = router;

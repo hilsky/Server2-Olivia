@@ -1,21 +1,17 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const router = express.Router();
-const { Guide } = require('../models/guide')
+const { Hotel } = require('../models/hotel')
 
 router.post('/', (req, res) => {
-    const guide = new Guide({
-        nama: req.body.nama,
-        work: req.body.work,
-        imgProfil: req.body.imgProfil,
-        desc: req.body.desc,
-        lokasi: req.body.lokasi,
-        alt: req.body.alt,
-        emaiil: req.body.email,
-        password: req.body.password,
-        rating: req.body.rating
+    const hotel = new Hotel({
+        namaHotel: req.body.namaHotel,
+        alamat: req.body.alamat,
+        fasParkir: req.body.fasParkir,
+        fasSarapan: req.body.fasSarapan,
+        rating: req.body.rating,
     });
-    guide.save()
+    hotel.save()
         .then(() => {
             res.status(200).json({ messege: "Berhasil ditambahkan" });
         }
@@ -27,9 +23,9 @@ router.post('/', (req, res) => {
 })
 
 router.get('/', (req, res) => {
-    Guide.find()
-        .then((Guides) => {
-            res.send(Guides);
+    Hotel.find()
+        .then((hotel) => {
+            res.send(hotel);
         }
         )
         .catch((err) => {
@@ -42,9 +38,9 @@ router.get('/', (req, res) => {
 router.get('/:id', (req, res) => {
     try {
         if (mongoose.Types.ObjectId.isValid(req.params.id)) {
-            Guide.findById(req.params.id)
-                .then((Guide) => {
-                    res.send(Guide);
+            Hotel.findById(req.params.id)
+                .then((hotel) => {
+                    res.send(hotel);
                 }
                 )
                 .catch((err) => {
@@ -65,19 +61,16 @@ router.get('/:id', (req, res) => {
 router.put('/:id', (req, res) => {
     try {
         if (mongoose.Types.ObjectId.isValid(req.params.id)) {
-            Guide.findByIdAndUpdate(req.params.id, {
-                nama: req.body.nama,
-                work: req.body.work,
-                imgProfil: req.body.imgProfil,
-                desc: req.body.desc,
-                lokasi: req.body.lokasi,
-                alt: req.body.alt,
-                email: req.body.email,
-                password: req.body.password,
-                rating: req.body.rating
+            Hotel.findByIdAndUpdate(req.params.id, {
+                namaHotel: req.body.namaHotel,
+                alamat: req.body.alamat,
+                fasParkir: req.body.fasParkir,
+                fasSarapan: req.body.fasSarapan,
+                rating: req.body.rating,
+                rating: req.body.rating,
             }, { new: true })
-                .then((Guide) => {
-                    res.send(Guide);
+                .then((hotel) => {
+                    res.send(hotel);
                 }
                 )
                 .catch((err) => {
@@ -98,8 +91,8 @@ router.put('/:id', (req, res) => {
 router.delete('/:id', (req, res) => {
     try {
         if (mongoose.Types.ObjectId.isValid(req.params.id)) {
-            Guide.findByIdAndDelete(req.params.id)
-                .then((Guide) => {
+            Hotel.findByIdAndDelete(req.params.id)
+                .then((hotel) => {
                     res.status(201).json({ messege: 'Data berhasil dihapus' });
                 }
                 )

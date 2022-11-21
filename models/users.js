@@ -11,7 +11,15 @@ const User = mongoose.model(
             type: mongoose.Schema.Types.ObjectId,
             ref: "Role"
          }
-      ]
+      ],
+      createdAt: {
+         type: Date,
+         default: Date.now()
+      },
+      updateAt: {
+         type: Date,
+         default: Date.now()
+      }
    })
 );
 

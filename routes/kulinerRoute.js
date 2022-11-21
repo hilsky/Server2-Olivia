@@ -1,21 +1,18 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const router = express.Router();
-const { Guide } = require('../models/guide')
+const { Kuliner } = require('../models/kuliner')
 
 router.post('/', (req, res) => {
-    const guide = new Guide({
-        nama: req.body.nama,
-        work: req.body.work,
-        imgProfil: req.body.imgProfil,
-        desc: req.body.desc,
-        lokasi: req.body.lokasi,
-        alt: req.body.alt,
-        emaiil: req.body.email,
-        password: req.body.password,
-        rating: req.body.rating
+    const kuliner = new Kuliner({
+        namaKuliner: req.body.namaKuliner,
+        alamat: req.body.alamat,
+        jamBuka: req.body.jamBuka,
+        jamTutup: req.body.jamTutup,
+        hariBuka: req.body.hariBuka,
+        hariTutup: req.body.hariTutup
     });
-    guide.save()
+    kuliner.save()
         .then(() => {
             res.status(200).json({ messege: "Berhasil ditambahkan" });
         }
@@ -27,9 +24,9 @@ router.post('/', (req, res) => {
 })
 
 router.get('/', (req, res) => {
-    Guide.find()
-        .then((Guides) => {
-            res.send(Guides);
+    Kuliner.find()
+        .then((kuliner) => {
+            res.send(kuliner);
         }
         )
         .catch((err) => {
@@ -42,9 +39,9 @@ router.get('/', (req, res) => {
 router.get('/:id', (req, res) => {
     try {
         if (mongoose.Types.ObjectId.isValid(req.params.id)) {
-            Guide.findById(req.params.id)
-                .then((Guide) => {
-                    res.send(Guide);
+            Kuliner.findById(req.params.id)
+                .then((kuliner) => {
+                    res.send(kuliner);
                 }
                 )
                 .catch((err) => {
@@ -65,19 +62,16 @@ router.get('/:id', (req, res) => {
 router.put('/:id', (req, res) => {
     try {
         if (mongoose.Types.ObjectId.isValid(req.params.id)) {
-            Guide.findByIdAndUpdate(req.params.id, {
-                nama: req.body.nama,
-                work: req.body.work,
-                imgProfil: req.body.imgProfil,
-                desc: req.body.desc,
-                lokasi: req.body.lokasi,
-                alt: req.body.alt,
-                email: req.body.email,
-                password: req.body.password,
-                rating: req.body.rating
+            Kuliner.findByIdAndUpdate(req.params.id, {
+                namaKuliner: req.body.namaKuliner,
+                alamat: req.body.alamat,
+                jamBuka: req.body.jamBuka,
+                jamTutup: req.body.jamTutup,
+                hariBuka: req.body.hariBuka,
+                hariTutup: req.body.hariTutup
             }, { new: true })
-                .then((Guide) => {
-                    res.send(Guide);
+                .then((kuliner) => {
+                    res.send(kuliner);
                 }
                 )
                 .catch((err) => {
@@ -98,8 +92,8 @@ router.put('/:id', (req, res) => {
 router.delete('/:id', (req, res) => {
     try {
         if (mongoose.Types.ObjectId.isValid(req.params.id)) {
-            Guide.findByIdAndDelete(req.params.id)
-                .then((Guide) => {
+            Kuliner.findByIdAndDelete(req.params.id)
+                .then(() => {
                     res.status(201).json({ messege: 'Data berhasil dihapus' });
                 }
                 )
