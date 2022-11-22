@@ -8,6 +8,10 @@ const hotelSchema = new mongoose.Schema({
         type: String,
 
     },
+    fasWifi: {
+        type: String,
+        default: 0
+    },
     fasParkir: {
         type: String,
         default: 0

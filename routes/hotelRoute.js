@@ -7,6 +7,7 @@ router.post('/', (req, res) => {
     const hotel = new Hotel({
         namaHotel: req.body.namaHotel,
         alamat: req.body.alamat,
+        fasWifi: req.body.fasWifi,
         fasParkir: req.body.fasParkir,
         fasSarapan: req.body.fasSarapan,
         rating: req.body.rating,
@@ -64,10 +65,11 @@ router.put('/:id', (req, res) => {
             Hotel.findByIdAndUpdate(req.params.id, {
                 namaHotel: req.body.namaHotel,
                 alamat: req.body.alamat,
+                fasWifi: req.body.fasWifi,
                 fasParkir: req.body.fasParkir,
                 fasSarapan: req.body.fasSarapan,
                 rating: req.body.rating,
-                rating: req.body.rating,
+
             }, { new: true })
                 .then((hotel) => {
                     res.send(hotel);
