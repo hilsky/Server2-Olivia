@@ -12,6 +12,9 @@ router.post('/', (req, res) => {
         fullName: req.body.fullName,
         password: bcrypt.hashSync(req.body.password, 8),
         email: req.body.email,
+        username: req.body.username,
+        noWa: req.body.noWa,
+        alamat: req.body.alamat
 
     });
     user.save((err, user) => {
@@ -109,6 +112,9 @@ router.put('/:id', (req, res) => {
                 fullName: req.body.fullName,
                 password: bcrypt.hashSync(req.body.password, 8),
                 email: req.body.email,
+                username: req.body.username,
+                noWa: req.body.noWa,
+                alamat: req.body.alamat
             }, { new: true })
                 .then((user) => {
                     res.send(user);

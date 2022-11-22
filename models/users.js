@@ -6,6 +6,9 @@ const User = mongoose.model(
       fullName: String,
       email: String,
       password: String,
+      username: String,
+      noWa: String,
+      alamat: String,
       roles: [
          {
             type: mongoose.Schema.Types.ObjectId,
