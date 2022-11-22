@@ -16,6 +16,9 @@ const guideSchema = new mongoose.Schema({
     type: String,
 
   },
+  username: {
+    type: String,
+  },
   lokasi: {
     type: String,
 
