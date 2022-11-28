@@ -1,21 +1,23 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const router = express.Router();
-const {Wisata} = require('../models/wisata')
+const { Wisata } = require('../models/wisata')
 
 router.post('/', (req, res) => {
     const wisata = new Wisata({
-       namaWisata: req.body.namaWisata,
-       imageBg: req.body.imageBg,
-       prov: req.body.prov,
-       like: req.body.like,
-       lokasi: req.body.lokasi,
-       kota: req.body.kota,
+        namaWisata: req.body.namaWisata,
+        imageBg: req.body.imageBg,
+        prov: req.body.prov,
+        like: req.body.like,
+        desc: req.body.desc,
+        lokasi: req.body.lokasi,
+        kota: req.body.kota,
+        rating: req.body.rating,
 
     });
     wisata.save()
         .then(() => {
-            res.status(200).json({messege: "Berhasil ditambahkan"});
+            res.status(200).json({ messege: "Berhasil ditambahkan" });
         }
         )
         .catch((err) => {
@@ -39,7 +41,7 @@ router.get('/', (req, res) => {
 
 router.get('/:id', (req, res) => {
     try {
-        if(mongoose.Types.ObjectId.isValid(req.params.id)){
+        if (mongoose.Types.ObjectId.isValid(req.params.id)) {
             Wisata.findById(req.params.id)
                 .then((Wisata) => {
                     res.send(Wisata);
@@ -49,12 +51,12 @@ router.get('/:id', (req, res) => {
                     res.send(err);
                 }
                 );
-            }
-        else{
+        }
+        else {
             res.send('Invalid ID');
         }
     }
-    catch(err){
+    catch (err) {
         res.send(err);
     }
 }
@@ -62,7 +64,7 @@ router.get('/:id', (req, res) => {
 
 router.put('/:id', (req, res) => {
     try {
-        if(mongoose.Types.ObjectId.isValid(req.params.id)){
+        if (mongoose.Types.ObjectId.isValid(req.params.id)) {
             Wisata.findByIdAndUpdate(req.params.id, {
                 namaWisata: req.body.namaWisata,
                 imageBg: req.body.imageBg,
@@ -70,7 +72,8 @@ router.put('/:id', (req, res) => {
                 like: req.body.like,
                 lokasi: req.body.lokasi,
                 kota: req.body.kota,
-            }, {new: true})
+                rating: req.body.rating
+            }, { new: true })
                 .then((Wisata) => {
                     res.send(Wisata);
                 }
@@ -79,12 +82,12 @@ router.put('/:id', (req, res) => {
                     res.send(err);
                 }
                 );
-            }
-        else{
+        }
+        else {
             res.send('Invalid ID');
         }
     }
-    catch(err){
+    catch (err) {
         res.send(err);
     }
 }
@@ -92,22 +95,22 @@ router.put('/:id', (req, res) => {
 
 router.delete('/:id', (req, res) => {
     try {
-        if(mongoose.Types.ObjectId.isValid(req.params.id)){
+        if (mongoose.Types.ObjectId.isValid(req.params.id)) {
             Wisata.findByIdAndDelete(req.params.id)
                 .then((Wisata) => {
-                    res.status(201).json({ messege: 'Data berhasil dihapus'});
+                    res.status(201).json({ messege: 'Data berhasil dihapus' });
                 }
                 )
                 .catch((err) => {
                     res.send(err);
                 }
                 );
-            }
-        else{
+        }
+        else {
             res.send('Invalid ID');
         }
     }
-    catch(err){
+    catch (err) {
         res.send(err);
     }
 }

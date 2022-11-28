@@ -7,7 +7,7 @@ const User = db.user
 
 var bcrypt = require('bcryptjs');
 
-router.post('/', (req, res) => {
+router.post('/', (req, res, next) => {
     const user = new User({
         fullName: req.body.fullName,
         password: bcrypt.hashSync(req.body.password, 8),
@@ -23,7 +23,7 @@ router.post('/', (req, res) => {
             return;
         }
 
-        if (req.body.roles) {
+        else if (req.body.roles) {
             Role.find(
                 {
                     name: { $in: req.body.roles }
@@ -45,6 +45,25 @@ router.post('/', (req, res) => {
                     });
                 }
             );
+        }
+
+        else if (req.body.email) {
+            User.findOne({
+                email: req.body.email
+            }).exec((err, user) => {
+                if (err) {
+                    res.status(400).send({ message: err });
+                    return;
+                }
+
+                if (user) {
+                    console.log(user)
+                    res.status(400).send({ message: "Gagal! Email telah digunakan" })
+                    return;
+                }
+
+                next();
+            });
         }
 
         else {

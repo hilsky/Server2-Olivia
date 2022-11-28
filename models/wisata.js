@@ -20,7 +20,10 @@ const wisataSchema = new mongoose.Schema({
         type: String
     },
     like: {
-        type:String
+        type: String
+    },
+    rating: {
+        type: String
     }
 })
 
