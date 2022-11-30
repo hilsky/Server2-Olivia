@@ -25,6 +25,9 @@ const kulinerSchema = new mongoose.Schema({
         type: String,
 
     },
+    imgBg: {
+        type: String
+    }
 
 })
 

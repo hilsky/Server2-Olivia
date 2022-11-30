@@ -24,6 +24,9 @@ const wisataSchema = new mongoose.Schema({
     },
     rating: {
         type: String
+    },
+    imgBg: {
+        type: String
     }
 })
 

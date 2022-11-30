@@ -46,26 +46,6 @@ router.post('/', (req, res, next) => {
                 }
             );
         }
-
-        else if (req.body.email) {
-            User.findOne({
-                email: req.body.email
-            }).exec((err, user) => {
-                if (err) {
-                    res.status(400).send({ message: err });
-                    return;
-                }
-
-                if (user) {
-                    console.log(user)
-                    res.status(400).send({ message: "Gagal! Email telah digunakan" })
-                    return;
-                }
-
-                next();
-            });
-        }
-
         else {
             Role.findOne({ name: "user" }, (err, role) => {
                 if (err) {

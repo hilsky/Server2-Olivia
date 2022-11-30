@@ -10,7 +10,8 @@ router.post('/', (req, res) => {
         jamBuka: req.body.jamBuka,
         jamTutup: req.body.jamTutup,
         hariBuka: req.body.hariBuka,
-        hariTutup: req.body.hariTutup
+        hariTutup: req.body.hariTutup,
+        imgBg: req.body.imgBg
     });
     kuliner.save()
         .then(() => {
@@ -68,7 +69,8 @@ router.put('/:id', (req, res) => {
                 jamBuka: req.body.jamBuka,
                 jamTutup: req.body.jamTutup,
                 hariBuka: req.body.hariBuka,
-                hariTutup: req.body.hariTutup
+                hariTutup: req.body.hariTutup,
+                imgBg: req.body.imgBg
             }, { new: true })
                 .then((kuliner) => {
                     res.send(kuliner);

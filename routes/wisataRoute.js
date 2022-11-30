@@ -13,6 +13,7 @@ router.post('/', (req, res) => {
         lokasi: req.body.lokasi,
         kota: req.body.kota,
         rating: req.body.rating,
+        imgBg: req.body.imgBg
 
     });
     wisata.save()
@@ -72,7 +73,8 @@ router.put('/:id', (req, res) => {
                 like: req.body.like,
                 lokasi: req.body.lokasi,
                 kota: req.body.kota,
-                rating: req.body.rating
+                rating: req.body.rating,
+                imgBg: req.body.imgBg
             }, { new: true })
                 .then((Wisata) => {
                     res.send(Wisata);
