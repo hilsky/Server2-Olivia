@@ -11,7 +11,7 @@ router.post('/', (req, res) => {
         fasParkir: req.body.fasParkir,
         fasSarapan: req.body.fasSarapan,
         rating: req.body.rating,
-        mgHotel: req.body.imgHotel
+        imgHotel: req.body.imgHotel
     });
     hotel.save()
         .then(() => {
