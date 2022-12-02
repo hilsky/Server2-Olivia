@@ -14,7 +14,9 @@ router.post('/', (req, res, next) => {
         email: req.body.email,
         username: req.body.username,
         noWa: req.body.noWa,
-        alamat: req.body.alamat
+        alamat: req.body.alamat,
+        imgProfil: req.body.imgProfil,
+        linkWa: req.body.linkWa
 
     });
     user.save((err, user) => {
@@ -113,7 +115,9 @@ router.put('/:id', (req, res) => {
                 email: req.body.email,
                 username: req.body.username,
                 noWa: req.body.noWa,
-                alamat: req.body.alamat
+                alamat: req.body.alamat,
+                imgProfil: req.body.imgProfil,
+                linkWa: req.body.linkWa
             }, { new: true })
                 .then((user) => {
                     res.send(user);

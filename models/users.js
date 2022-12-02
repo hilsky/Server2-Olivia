@@ -9,6 +9,8 @@ const User = mongoose.model(
       username: String,
       noWa: String,
       alamat: String,
+      imgProfil: String,
+      linkWa: String,
       roles: [
          {
             type: mongoose.Schema.Types.ObjectId,
