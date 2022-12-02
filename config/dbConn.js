@@ -4,19 +4,19 @@ const Role = db.role;
 
 
 const ConnectDB = async () => {
-    mongoose.
-        connect(
-            process.env.URI_DB,
-            { useNewUrlParser: true, useUnifiedTopology: true }
-        )
-        .then(() => {
-            console.log('Connected to MongoDB');
-            initial()
-        })
-        .catch((err) => {
-            console.log(err);
-            process.exit()
-        });
+    try {
+        const conn = await mongoose.
+            connect(
+                process.env.URI_DB,
+                { useNewUrlParser: true, useUnifiedTopology: true }
+            ).then(() => {
+                console.log(`Connected to MongoDB: ${conn.connection.host}`);
+                initial()
+            })
+    } catch (error) {
+        console.log(error)
+        process.exit(1);
+    }
 
 
     function initial() {

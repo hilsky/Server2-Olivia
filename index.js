@@ -20,11 +20,6 @@ app.use((req, res, next) => {
     next();
 });
 
-ConnectDB().then(() => {
-    app.listen(PORT, () => {
-        console.log(`Server is running on port ${PORT}`);
-    })
-})
 require('./routes/auth.routes')(app);
 require('./routes/user.routes')(app);
 app.use('/wisata', require('./routes/wisataRoute'))
@@ -35,4 +30,8 @@ app.use('/kuliner', require('./routes/kulinerRoute'))
 
 
 
-
+ConnectDB().then(() => {
+    app.listen(PORT, () => {
+        console.log(`Server is running on port ${PORT}`);
+    })
+})
